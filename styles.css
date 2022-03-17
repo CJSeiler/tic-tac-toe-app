@@ -34,6 +34,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100vw;
 }
 
 .container {
@@ -51,9 +52,7 @@ body {
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     grid-gap: 0.3em;
-    margin: 0 auto;
-    margin-bottom: 2em;
-    margin-top: 3em;
+    margin: 2em auto 3em;
     height: 300px;
     width: 300px;
     background-color: #000;
@@ -114,4 +113,30 @@ button:hover{
     display: none;
 }
 
+@media (max-width: 800px) {
 
+    .container {
+        width: 60vw;
+        height: 90vh;
+        min-height: 0;
+        padding: 1.5em;
+    }
+
+    .board {
+        height: 150px;
+        width: 150px;
+        margin: 1.5em auto 2em;
+    }
+
+    .tile {
+        font-size: 30px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}
