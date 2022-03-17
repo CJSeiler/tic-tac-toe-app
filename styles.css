@@ -114,23 +114,24 @@ button:hover{
 }
 
 
-@media (max-width: 500px) {
+@media (max-width: 400px) {
 
     .container {
         width: 90vw;
-        height: 50vh;
+        height: 500px;
         min-height: 0;
         padding: 1.5em;
+        margin: 0 auto;
     }
 
     .board {
-        height: 150px;
-        width: 150px;
+        height: 200px;
+        width: 200px;
         margin: 1.5em auto 2em;
     }
 
     .tile {
-        font-size: 30px;
+        font-size: 40px;
     }
 
     h1 {
