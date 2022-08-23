@@ -37,7 +37,7 @@ function playerChoice(event) {
         event.target.style.color = "#fcfc12"
         player1Tiles.push(event.target.id)
         message.innerHTML = `<span class="player-text">Player O</span> 's turn`
-        document.querySelector(".player-text").style.color = "#000"
+        document.querySelector(".player-text").style.color = "#fff"
         // message.textContent = "Player O's Turn!"
     } else {
         event.target.textContent = "O"
@@ -75,7 +75,7 @@ function checkWinner() {
 
     if(checkPlayerTwo) {
         message.innerHTML = '<span class="player-text">Player O</span> Wins 🥳'
-        document.querySelector(".player-text").style.color = "#000"
+        document.querySelector(".player-text").style.color = "#fff"
         gameWon = true
     }
 
