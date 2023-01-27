@@ -1,4 +1,6 @@
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -10,24 +12,25 @@ body {
     font-family: sans-serif;
 }
 
+p,
+h1,
+h2 {
+    margin: 0;
+}
+
 h1 {
     color: #fcfc12;
     text-align: center;
-    font-size: 3.5rem;
+    font-size: 3.25rem;
     margin: 0;
 }
 
 h2{
     color: #fff;
     text-align: center;
-    height: 5%;
     font-size: 1.75rem;
-}
-
-.player-text {
     font-weight: 900;
 }
-
 
 body {
     display: flex;
@@ -38,59 +41,74 @@ body {
 }
 
 .container {
-    width: 500px;
-    margin: 0 auto;
-    background-color:#27272b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em 0;
     padding: 3em;
-    text-align: center;
-    border-radius: 20px;
-    height: 60vh;
-    min-height: 650px;
+    width: 75%;
+    max-width: 35rem;
+    border-radius: 10px;
+    background-color:#27272b;
 }
 
 .board {
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-    grid-gap: 0.3em;
-    margin: 2em auto 3em;
-    height: 300px;
-    width: 300px;
+    gap: 0.2em;
+    height: fit-content;
+    width: 100%;
     background-color: #000;
     border: 5px solid #000;
-    border-radius: 15px; 
-    
+    border-radius: 15px;
+    aspect-ratio: 1;
 }
 
+
 .tile {
-    background-color: #505050;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 60px;
+    height: 100%;
+    width: 100%;
+    border: none;
+    background-color: #505050;
+    font-size: 3.5rem;
     font-weight: bold;
     font-family: "Permanent Marker";
 }
 
-div.one {
+.tile:is(:hover, :focus-within) {
+    cursor: pointer;
+}
+
+.tile:disabled {
+    border: none;
+}
+
+.tile-one {
     border-top-left-radius: 10px;
 }
 
-div.three {
+.tile-three {
     border-top-right-radius: 10px;
 }
 
-div.seven {
+.tile-seven {
     border-bottom-left-radius: 10px;
 }
 
-div.nine {
+.tile-nine {
     border-bottom-right-radius: 10px;
 }
 
+#message {
+    font-size: 1.75rem;
+}
 
-
-button {
-    display: inline-block;
+#startGameBtn {
+    align-self: center;
+    margin-top: auto;
     padding: 0.5em 1em;
     background-color: #000;
     color: #fff;
@@ -100,45 +118,38 @@ button {
     border: none;
 }
 
-button:hover{
+#startGameBtn:is(:hover, :focus-within) {
     background-color: #fcfc12;
     color: #01112b;
+    cursor: pointer;
 }
 
-#start-game {
-    display: inline-block;
-}
-
-#reset-game {
-    display: none;
-}
-
-
-@media (max-width: 400px) {
+@media (max-width: 25rem) {
 
     .container {
-        width: 100%;
-        height: 500px;
-        min-height: 0;
-        padding: 1.5em;
-        margin: 0 auto;
+        width: 90%;
+        min-width: 18.5rem;
     }
 
     .board {
-        height: 200px;
-        width: 200px;
-        margin: 1.5em auto 2em;
+        gap: 0.2em;
+        height: 14rem;
+        width: 14rem;
     }
 
     .tile {
-        font-size: 40px;
+        font-size: 2rem;
     }
 
     h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 
     h2 {
-        font-size: 1.2rem;
+        font-size: 1rem;
+    }
+
+    #startGameBtn {
+        font-size: 1rem;
     }
 }

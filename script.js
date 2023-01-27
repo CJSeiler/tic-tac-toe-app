@@ -1,13 +1,12 @@
-const tiles = document.getElementsByClassName('tile')
-let player1Turn = true
-let player1Tiles = []
-let player2Tiles = []
-const playBtn = document.getElementById('start-game')
-const resetBtn = document.getElementById('reset-game')
-const message = document.getElementById('message')
+const tiles = document.getElementsByClassName("tile")
+let playerTurn = "X"
+let playerXTiles = []
+let playerOTiles = []
+const startBtn = document.getElementById("startGameBtn")
+const message = document.getElementById("message")
 let gameWon = false
 
-let wins = [
+const wins = [
     ['1', '2', '3'], 
     ['1', '4', '7'], 
     ['1', '5', '9'],
@@ -18,102 +17,110 @@ let wins = [
     ['3', '5', '7']
 ]
 
-function createListeners() {
-    for(let tile of tiles){
+startBtn.addEventListener('click', startGame)
+addTileListeners()
+
+function addTileListeners() {
+    for(let tile of tiles) {
         tile.addEventListener('click', playerChoice)
+        tile.disabled = false
     }
 }
 
-function removeListeners() {
+function removeTileListeners() {
     for(let tile of tiles){
         tile.removeEventListener('click', playerChoice)
     }
 }
 
+function showResetBtn() {
+    // converts original button to a reset button by changing text content and event listener
+    startBtn.removeEventListener("click", startGame)
+    startBtn.addEventListener("click", resetGame)
+    startBtn.textContent = "Let's Play Again!"
+    startBtn.style.visibility = "visible"
+}
 
-function playerChoice(event) {
-    if(player1Turn){
-        event.target.textContent = "X"
-        event.target.style.color = "#fcfc12"
-        player1Tiles.push(event.target.id)
-        message.innerHTML = `<span class="player-text">Player O</span> 's turn`
-        document.querySelector(".player-text").style.color = "#fff"
-        // message.textContent = "Player O's Turn!"
+function playerChoice(e) {
+    
+    if(playerTurn === "X"){
+        e.target.textContent = "X"
+        e.target.style.color = "#fcfc12"
+        playerXTiles.push(e.target.id)
+        message.innerHTML = `<span class="player-text">Player O's</span> turn`
+        document.querySelector(".player-text").style.color = "#000"
     } else {
-        event.target.textContent = "O"
-        event.target.style.color = "#000"
-        message.innerHTML = `<span class="player-text">Player X</span> 's turn`
+        e.target.textContent = "O"
+        e.target.style.color = "#000"
+        message.innerHTML = `<span class="player-text">Player X's</span> turn`
         document.querySelector(".player-text").style.color = "#fcfc12"
-        // message.textContent = "Player X's Turn!"
-        player2Tiles.push(event.target.id)
+        playerOTiles.push(e.target.id)
     }
 
-    player1Turn = !player1Turn;
-    event.target.removeEventListener('click', playerChoice)
+    // changes player turn to the opposite player and allows the loser to go first on reset
+    playerTurn = playerTurn === "X" ? "O" : "X"
+
+    // prevents tiles from being reselected after already chosen
+    e.target.disabled = true
+
     checkWinner()
     checkDraw()
-};
-
-playBtn.addEventListener('click', startGame)
+}
 
 function startGame() {
     message.innerHTML = `<span class="player-text">Player X</span> 's turn`
     document.querySelector(".player-text").style.color = "#fcfc12"
-    playBtn.style.display = "none"
-    createListeners()
+    startBtn.style.visibility = "hidden"
 }
 
 function checkWinner() {
-    let checkPlayerOne = wins.some((ar) => ar.every((e) => player1Tiles.includes(e)))
-    let checkPlayerTwo = wins.some((ar) => ar.every((e) => player2Tiles.includes(e)))
+    let playerXWins = wins.some((ar) => ar.every((e) => playerXTiles.includes(e)))
+    let playerOWins = wins.some((ar) => ar.every((e) => playerOTiles.includes(e)))
 
-    if(checkPlayerOne) {
+    if(playerXWins) {
         message.innerHTML = '<span class="player-text">Player X</span> Wins 🥳'
         document.querySelector(".player-text").style.color = "#fcfc12"
         gameWon = true
     }
 
-    if(checkPlayerTwo) {
+    if(playerOWins) {
         message.innerHTML = '<span class="player-text">Player O</span> Wins 🥳'
-        document.querySelector(".player-text").style.color = "#fff"
+        document.querySelector(".player-text").style.color = "#000"
         gameWon = true
     }
 
     if(gameWon){
-        removeListeners();
-        resetBtn.style.display = "inline-block"
+        removeTileListeners()
+        showResetBtn()
     }
 }
 
 function checkDraw(){
-    if(player1Tiles.length + player2Tiles.length === 9 && gameWon === false) {
+    if(playerXTiles.length + playerOTiles.length === 9 && gameWon === false) {
         message.textContent = "It's a draw!"
-        resetBtn.style.display = "inline-block"
+        showResetBtn()
     }
 }
-
-
-resetBtn.addEventListener('click', resetGame)
 
 function resetGame() {
     gameWon = false
 
     for(let tile of tiles){
-        tile.textContent = ''
+        tile.textContent = ""
     }
 
-    createListeners()
+    addTileListeners()
 
-    if(player1Turn){
-        message.innerHTML = `<span class="player-text">Player X</span> 's turn`
+    if(playerTurn === "X"){
+        message.innerHTML = `<span class="player-text">Player X's</span> turn`
         document.querySelector(".player-text").style.color = "#fcfc12"
     } else {
-        message.innerHTML = `<span class="player-text">Player O</span> 's turn`
+        message.innerHTML = `<span class="player-text">Player O's</span> turn`
         document.querySelector(".player-text").style.color = "#000"
     }
     
-    player1Tiles = []
-    player2Tiles = []
+    playerXTiles = []
+    playerOTiles = []
 
-    resetBtn.style.display = "none"
+    startBtn.style.visibility = "hidden"
 }
